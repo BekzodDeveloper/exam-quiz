@@ -1,10 +1,10 @@
-import React, { ChangeEvent, ChangeEventHandler, MouseEventHandler, useState } from 'react';
+import React, { ChangeEvent, useState } from 'react';
 
-import { GlobalStyle, Wrapper } from "./App.styles";
+import { GlobalStyle, Wrapper, PasswordCard, PasswordInput, CategoryGrid, CategoryCard, SectionLabel } from "./App.styles";
 
 import LoadingIMG from "./images/loading-gif.gif";
 import nextArrowIMG from "./images/next.svg";
-import { AnswerType, dataQuestions, ex, QuestionItemType, QuestionState, QuestionType } from "./state/state";
+import { AnswerType, dataQuestions, ex, QuestionState, QuestionType } from "./state/state";
 import { shuffleArray } from "./utils";
 import { QuestionCardComponent } from "./components/QuestionCardComponent";
 import { NavLink, Route, Routes } from "react-router-dom";
@@ -100,7 +100,6 @@ const App = () => {
         if (!gameOver) {
             const answer = e.currentTarget.value;
 
-            //Check answer against correct answer
             const correct = questions[number].correct_answer === answer;
 
             if (correct) setScore(prev => prev + 1);
@@ -125,11 +124,9 @@ const App = () => {
         }
     }
 
-    // slice questions and answers from Array of strings
     function sliceArray(array: Array<string>) {
-
         let size: number = 5;
-        let subarray: Array<Array<string>> = [];// [ [string,string ], [ ], ]
+        let subarray: Array<Array<string>> = [];
         for (let i = 0; i < Math.ceil(array.length / size); i++) {
             subarray[i] = array.slice((i * size), (i * size) + size);
         }
@@ -150,22 +147,11 @@ const App = () => {
     const questionArrays: Array<QuestionType> = sliceArray(ex.questions);
 
     const questionObjs: Array<QuestionObj> = [
-        // {title: "Рынок Капитала", category: "РК", btnClass: "next", path: "/capitalmarket"},
-        // {title: "Производ. Менеджмент", category: "ПМ", btnClass: "next", path: "/prodman"},
-        // {title: "История Эк. Уч.", category: "ИЭУ", btnClass: "next", path: "/history"},
-        // {title: "Цифровая Экономика", category: "ЦЭ", btnClass: "next", path: "/digeco"},
-        // {title: "Произ-е Технологии", category: "ПТ", btnClass: "next", path: "/prodtech"},
-        // {title: "Public Relations", category: "PR", btnClass: "next", path: "/pr"},
-        // { title: "Методы исследования", category: "МИ", btnClass: "next", path: "/mor" },
-        // { title: "Проджект Менеджмент", category: "PM", btnClass: "next", path: "/pm" },
-        // { title: "Риск Менеджмент", category: "Риск", btnClass: "next", path: "/risk" },
         { title: "Банк и деньги", category: "Банк", btnClass: "next", path: "/bank" },
         { title: "Тайм Менеджмент", category: "Тайм", btnClass: "next", path: "/time" },
         { title: "Бизнес Стратегия", category: "БизСтр", btnClass: "next", path: "/busstr" },
     ];
     const questionObjs1: Array<QuestionObj> = [
-        // { title: "Методы исследования", category: "МИ1", btnClass: "next", path: "/mor1" },
-        // { title: "Проджект Менеджмент", category: "PM1", btnClass: "next", path: "/pm1" },
         { title: "Риск Менеджмент", category: "Риск1", btnClass: "next", path: "/risk1" },
     ];
 
@@ -183,30 +169,39 @@ const App = () => {
     return (<>
         <GlobalStyle />
         <Wrapper>
-            <h1 style={{ margin: "40px 4px 0px" }}>Exam Quiz</h1>
-            <hr />
-            <input type="password" value={inputValue} placeholder={"Введите пароль"} onChange={inputChange}
-                style={{ marginBottom: "10px", marginTop: "10px", padding: "5px" }} />
+            <h1>Exam Quiz</h1>
+
+            <PasswordCard>
+                <SectionLabel style={{ margin: 0 }}>Введите пароль для доступа</SectionLabel>
+                <PasswordInput
+                    type="password"
+                    value={inputValue}
+                    placeholder="Введите пароль"
+                    onChange={inputChange}
+                />
+            </PasswordCard>
 
             {inputValue === pass ?
                 <>
-                    <p>Выберите предмет</p>
+                    <SectionLabel>Выберите предмет</SectionLabel>
                     <Buttons startExamQuiz={startExamQuiz}
                         questionObjs={questionObjs} />
                 </>
                 : inputValue === pass1 ?
                     <>
-                        <p>Выберите предмет</p>
+                        <SectionLabel>Выберите предмет</SectionLabel>
                         <Buttons
                             startExamQuiz={startExamQuiz}
                             questionObjs={questionObjs1} />
                     </>
-                    : (<>
-                        🔼 Введите пароль 🔼
-                    </>)
+                    : null
             }
 
-            {loading && <img style={{ width: "100px" }} src={LoadingIMG} />}
+            {loading && (
+                <div style={{ marginTop: '40px' }}>
+                    <img style={{ width: '80px', opacity: 0.8 }} src={LoadingIMG} alt="Loading..." />
+                </div>
+            )}
 
             {!loading && !gameOver && (inputValue === pass || inputValue === pass1) && (
 
@@ -239,20 +234,15 @@ const App = () => {
                 !loading &&
                 userAnswers.length === number + 1 &&
                 number !== totalQuestions - 1 && (inputValue === pass || inputValue === pass1) &&
-                <button className='next' onClick={nextQuestion}>Следующий вопрос <img style={{ paddingLeft: "5px" }}
-                    src={nextArrowIMG} /></button>
+                <button className='next' onClick={nextQuestion}>
+                    Следующий вопрос{' '}
+                    <img style={{ paddingLeft: '5px', filter: 'brightness(0) invert(1)' }} src={nextArrowIMG} alt="" />
+                </button>
             }
-            <div className='powered'>
-                {/* Powered by 
-            Kholdorov's - <a
-                target='_blank'
-                href="https://t.me/bekzodmirzakarim_blog">Bekzod
-            </a> & <a target='_blank' href="https://www.instagram.com/abdulaziz.uxui/">Abdulaziz</a> */}
-            </div>
+            <div className='powered'></div>
 
         </Wrapper>
         <>
-
             {
                 concatToJSON && questionArrays.map(myQ => {
 
@@ -284,19 +274,20 @@ type ButtonsType = {
 }
 
 const Buttons: React.FC<ButtonsType> = ({ startExamQuiz, questionObjs }) => {
-
-
-    return <div style={{ display: "flex", flexWrap: "wrap", gridGap: '10px' }}>
-        {questionObjs.map(q => {
-            return <button key={q.category} className={q.btnClass}>
-                <NavLink to={q.path}
-                    onClick={() => {
-                        startExamQuiz(q.category)
-                    }}>
-                    {q.title}
-                </NavLink>
-            </button>
-        })}
-    </div>;
+    return (
+        <CategoryGrid>
+            {questionObjs.map(q => (
+                <CategoryCard key={q.category}>
+                    <NavLink
+                        to={q.path}
+                        onClick={() => startExamQuiz(q.category)}
+                    >
+                        {q.title}
+                    </NavLink>
+                </CategoryCard>
+            ))}
+        </CategoryGrid>
+    );
 }
+
 export default App;

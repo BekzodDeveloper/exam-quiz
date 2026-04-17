@@ -1,11 +1,8 @@
 import React from 'react';
-import { AnswerWrapper, ButtonWrapper, Wrapper } from "./QuestionCard.styles";
-import { AnswerType, dataQuestions, QuestionItemType } from "../state/state";
+import { AnswerWrapper, ButtonWrapper, ProgressBarFill, ProgressBarTrack, Wrapper } from "./QuestionCard.styles";
+import { AnswerType } from "../state/state";
 
 type QuestionCardType = {
-    // questionItem: QuestionItemType
-    // answers:Array<string>
-
     question: string
     answers: Array<string>
     userAnswer: AnswerType | undefined
@@ -22,49 +19,41 @@ type QuestionCardType = {
 
 export const QuestionCardComponent: React.FC<QuestionCardType> =
     ({
-        // questionItem,
-        // answers,
         checkAnswer,
-
         question,
         answers,
         userAnswer,
         questionNum,
         totalQuestions,
-
         gameOver,
         userAnswers,
         startExamQuiz,
         questionCategory,
         score
     }) => {
-        // let progress = ((50 / 20) * score).toFixed(1);
-        // console.log(question)
+        const percent = Math.round((questionNum / totalQuestions) * 100);
+
         return (
             <>
-                {/*<h2 style={{fontSize: '20px'}}>{questionCategory}</h2>*/}
                 <Wrapper>
-
-                    <div style={{ display: "flex", alignItems: "center", justifyContent: "center" }}>
-                        <p style={{ margin: '5px 5px 10px', fontSize: '18px' }} className="number">
-                            |  Всего: 
-                             {totalQuestions}
-                            {/*{questionCategory === "PM" ? " 87" :*/}
-                            {/*    questionCategory === "PM1" ? " 87" :*/}
-                            {/*        questionCategory === "МИ" ? " 46" :*/}
-                            {/*            questionCategory == "МИ1" ? " 46" : totalQuestions*/}
-                            {/*}*/}
-                        </p>
-
-                        <p style={{ margin: '5px 5px 10px', fontSize: '18px' }} className="number">
-                            | Счёт: <span style={{ color: "#59ba0f" }}> {score}</span> / {questionNum} |
-                        </p>
+                    <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '10px' }}>
+                        <span style={{ color: 'var(--clr-text-muted)', fontSize: '14px' }}>
+                            Вопрос {questionNum} / {totalQuestions}
+                        </span>
+                        <span style={{ color: 'var(--clr-text-muted)', fontSize: '14px' }}>
+                            Счёт:{' '}
+                            <span style={{ color: 'var(--clr-correct)', fontWeight: 600 }}>{score}</span>
+                            {' '}/ {questionNum}
+                        </span>
                     </div>
-                    <hr />
+                    <ProgressBarTrack>
+                        <ProgressBarFill percent={percent} />
+                    </ProgressBarTrack>
 
-                    <p style={{ fontSize: "20px", fontWeight: "400" }} dangerouslySetInnerHTML={{ __html: question }} />
+                    <p style={{ fontSize: '1.1rem', fontWeight: 400, color: 'var(--clr-text)', lineHeight: '1.7', margin: '0 0 16px' }}
+                        dangerouslySetInnerHTML={{ __html: question }} />
+
                     <AnswerWrapper>
-
                         {answers.map(ans => (
                             <ButtonWrapper
                                 key={ans}
@@ -75,17 +64,16 @@ export const QuestionCardComponent: React.FC<QuestionCardType> =
                                 </button>
                             </ButtonWrapper>))}
                     </AnswerWrapper>
-                    {gameOver || userAnswers.length === totalQuestions
-                        ? <>
 
-                            <button style={{ padding: "10px 40px", margin: "30px 0", backgroundColor: "#59ba0f", color: "#fff", borderColor: "#59ba0f" }} className='start' onClick={() => {
-                                startExamQuiz(questionCategory)
-                            }}>Рестарт ▶
-                            </button>
-                        </>
+                    {gameOver || userAnswers.length === totalQuestions
+                        ? <button
+                            className='start'
+                            style={{ marginTop: '28px', backgroundColor: 'var(--clr-correct)', borderColor: 'var(--clr-correct)' }}
+                            onClick={() => startExamQuiz(questionCategory)}>
+                            Рестарт ▶
+                          </button>
                         : null}
                 </Wrapper>
             </>
         );
-
     }
