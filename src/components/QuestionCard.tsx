@@ -26,7 +26,6 @@ export const QuestionCard: React.FC<QuestionCardType> =
          questionNum,
          totalQuestions
      }) => {
-debugger
         return (
             <Wrapper>
                 <p className="number">
