@@ -46,6 +46,7 @@ export const Wrapper = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
+  gap: 8px;
   padding-bottom: 50px;
   animation: ${fadeIn} 0.35s ease both;
 
@@ -126,6 +127,10 @@ export const Wrapper = styled.div`
 
   .start {
     max-width: 200px;
+  }
+
+  .next {
+    margin-top: 20px;
   }
 
   .powered {
