@@ -1,21 +1,21 @@
 import styled from 'styled-components';
 
 export const Wrapper = styled.div`
-  max-width: 760px;
+
+  max-width: 1000px;
+  //background: #fff;
+  border-radius: 10px;
+  //border: 2px solid #0085a3;
+  padding: 0px 0 20px;
+  //box-shadow: 0px 5px 10px rgba(0, 0, 0, 0.25);
+  //box-shadow: 0px 108px 43px rgba(0, 0, 0, 0.01), 0px 61px 36px rgba(0, 0, 0, 0.05), 0px 27px 27px rgba(0, 0, 0, 0.09), 0px 7px 15px rgba(0, 0, 0, 0.1), 0px 0px 0px rgba(0, 0, 0, 0.1);
+  text-align: center;
   width: 100%;
   margin: 0 10px;
-  background: var(--clr-surface);
-  border: 1px solid var(--clr-border);
-  border-radius: 20px;
-  padding: 28px 28px 24px;
-  box-shadow: 0 12px 40px rgba(0,0,0,0.3);
-  text-align: center;
 
   p {
     font-size: 1rem;
-    font-weight: 400;
-    color: var(--clr-text);
-    line-height: 1.6;
+    font-weight: 500;
   }
 `;
 
@@ -23,75 +23,49 @@ export type ButtonWrapperProps = {
     correct: boolean
     userClicked: boolean
 }
-
 export const ButtonWrapper = styled.div<ButtonWrapperProps>`
-  transition: opacity 0.2s ease;
 
-  &:hover {
-    opacity: ${({userClicked, correct}) =>
-      (correct || userClicked) ? 1 : 0.85};
+  transition: all 0.3s ease;
+
+  :hover {
+    opacity: 0.8;
   }
 
   button {
     cursor: pointer;
     user-select: none;
-    font-size: 0.95rem;
-    font-weight: 500;
+    font-size: 1rem;
     width: 100%;
     height: 100%;
-    min-height: 52px;
     margin: 5px 0;
-    padding: 10px 16px;
-    border-radius: 12px;
-    transition: background 0.25s ease, border-color 0.25s ease,
-                color 0.25s ease, box-shadow 0.25s ease;
-
     background: ${({correct, userClicked}) =>
-      correct
-        ? 'var(--clr-correct)'
-        : userClicked && !correct
-          ? 'var(--clr-wrong)'
-          : 'var(--clr-surface-2)'};
+            correct ? "#59ba0f"
+                    : userClicked && !correct
+                            ? "#C82020"
+                            : "transparent"};
 
     border: 2px solid ${({correct, userClicked}) =>
-      correct
-        ? 'var(--clr-correct)'
-        : userClicked && !correct
-          ? 'var(--clr-wrong)'
-          : 'var(--clr-border)'};
+            correct ? "#59ba0f"
+                    : userClicked && !correct
+                            ? "#C82020"
+                            : "#222222"};
 
-    box-shadow: ${({correct, userClicked}) =>
-      correct
-        ? '0 0 14px var(--clr-correct-glow)'
-        : userClicked && !correct
-          ? '0 0 14px var(--clr-wrong-glow)'
-          : 'none'};
-
+    box-shadow: 1px 2px 0px rgba(0, 0, 0, 0.1);
+    border-radius: 10px;
     color: ${({correct, userClicked}) =>
-      (correct || userClicked) ? '#fff' : 'var(--clr-text)'};
+            correct ? "#fff"
+                    : userClicked && !correct
+                            ? "#fff"
+                            : "#222222"};
+    //text-shadow: 0px 1px 0px rgba(0, 0, 0, 0.25);
   }
+
 `;
 
 export const AnswerWrapper = styled.div`
+
   display: grid;
   grid-template-columns: 1fr 1fr;
-  gap: 10px;
-  margin-top: 8px;
-`;
-
-export const ProgressBarTrack = styled.div`
-  width: 100%;
-  height: 6px;
-  background: var(--clr-surface-2);
-  border-radius: 999px;
-  margin-bottom: 20px;
-  overflow: hidden;
-`;
-
-export const ProgressBarFill = styled.div<{ percent: number }>`
-  height: 100%;
-  width: ${({percent}) => percent}%;
-  background: linear-gradient(90deg, var(--clr-primary), #a78bfa);
-  border-radius: 999px;
-  transition: width 0.4s ease;
+  grid-gap: 10px;
+    
 `;
