@@ -1,16 +1,15 @@
-import React, { ChangeEvent, useState } from 'react';
+import React, { useState } from 'react';
 
-import { GlobalStyle, Wrapper, PasswordCard, PasswordInput, CategoryGrid, CategoryCard, SectionLabel } from "./App.styles";
+import { GlobalStyle, Wrapper, CategoryGrid, CategoryCard, SectionLabel } from "./App.styles";
 
 import LoadingIMG from "./images/loading-gif.gif";
 import nextArrowIMG from "./images/next.svg";
-import { AnswerType, dataQuestions, ex, QuestionState, QuestionType } from "./state/state";
+import { AnswerType, dataQuestions, QuestionState, QuestionType } from "./state/state";
 import { shuffleArray } from "./utils";
 import { QuestionCardComponent } from "./components/QuestionCardComponent";
 import { NavLink, Route, Routes } from "react-router-dom";
 
 
-const concatToJSON: boolean = true;
 type QuestionObj = {
     title: string, category: string, btnClass: string, path: string
 }
@@ -78,6 +77,24 @@ const App = () => {
             case "БизСтр":
                 allQuestions = dataQuestions.questionsBusStr;
                 break
+            case "HRM-7":
+                allQuestions = dataQuestions.questionsHRM7;
+                break
+            case "HRM-8":
+                allQuestions = dataQuestions.questionsHRM8;
+                break
+            case "HRM-9":
+                allQuestions = dataQuestions.questionsHRM9;
+                break
+            case "HRM-10":
+                allQuestions = dataQuestions.questionsHRM10;
+                break
+            case "HRM-11":
+                allQuestions = dataQuestions.questionsHRM11;
+                break
+            case "HRM-12":
+                allQuestions = dataQuestions.questionsHRM12;
+                break
             default:
                 allQuestions = [];
         }
@@ -86,7 +103,6 @@ const App = () => {
             ...questionItem,
             answers: shuffleArray([...questionItem.incorrect_answers, questionItem.correct_answer])
         })));
-
 
         setTotalQuestions(newQuestions.length)
         setQuestions(newQuestions);
@@ -99,9 +115,7 @@ const App = () => {
     const checkAnswer = (e: React.MouseEvent<HTMLButtonElement>) => {
         if (!gameOver) {
             const answer = e.currentTarget.value;
-
             const correct = questions[number].correct_answer === answer;
-
             if (correct) setScore(prev => prev + 1);
             const answerObj = {
                 question: questions[number].question,
@@ -114,88 +128,34 @@ const App = () => {
     }
 
     const nextQuestion = () => {
-        const nextQuestion = number + 1;
-        if (nextQuestion === totalQuestions) {
-            setGameOver(true);
-        } else if (nextQuestion === totalQuestions) {
+        const next = number + 1;
+        if (next === totalQuestions) {
             setGameOver(true);
         } else {
-            setNumber(nextQuestion)
+            setNumber(next)
         }
     }
 
-    function sliceArray(array: Array<string>) {
-        let size: number = 5;
-        let subarray: Array<Array<string>> = [];
-        for (let i = 0; i < Math.ceil(array.length / size); i++) {
-            subarray[i] = array.slice((i * size), (i * size) + size);
-        }
-        const objs: Array<QuestionType> = subarray.map(sub => (
-            {
-                category: "Тайм",
-                type: "multiple",
-                difficulty: "easy",
-                question: sub[0],
-                correct_answer: sub[1],
-                incorrect_answers: [sub[2], sub[3], sub[4]]
-            }
-        ))
-        return objs;
-    }
-
-
-    const questionArrays: Array<QuestionType> = sliceArray(ex.questions);
-
-    const questionObjs: Array<QuestionObj> = [
+    const allQuestionObjs: Array<QuestionObj> = [
         { title: "Банк и деньги", category: "Банк", btnClass: "next", path: "/bank" },
         { title: "Тайм Менеджмент", category: "Тайм", btnClass: "next", path: "/time" },
         { title: "Бизнес Стратегия", category: "БизСтр", btnClass: "next", path: "/busstr" },
-    ];
-    const questionObjs1: Array<QuestionObj> = [
         { title: "Риск Менеджмент", category: "Риск1", btnClass: "next", path: "/risk1" },
+        { title: "Ch.7 — Retention & Motivation", category: "HRM-7", btnClass: "next", path: "/hrm7" },
+        { title: "Ch.8 — Training & Development", category: "HRM-8", btnClass: "next", path: "/hrm8" },
+        { title: "Ch.9 — Employee Communication", category: "HRM-9", btnClass: "next", path: "/hrm9" },
+        { title: "Ch.10 — Managing Performance", category: "HRM-10", btnClass: "next", path: "/hrm10" },
+        { title: "Ch.11 — Employee Assessment", category: "HRM-11", btnClass: "next", path: "/hrm11" },
+        { title: "Ch.12 — Labor Unions", category: "HRM-12", btnClass: "next", path: "/hrm12" },
     ];
-
-
-    type InputValue = string;
-    const pass = "MNP31";
-    const pass1 = "BBB31";
-    const [inputValue, setInputValue] = useState<InputValue>("");
-
-    const inputChange = (event: ChangeEvent<HTMLInputElement>) => {
-        setInputValue(event.target.value)
-    }
-
 
     return (<>
         <GlobalStyle />
         <Wrapper>
             <h1>Exam Quiz</h1>
 
-            <PasswordCard>
-                <SectionLabel style={{ margin: 0 }}>Введите пароль для доступа</SectionLabel>
-                <PasswordInput
-                    type="password"
-                    value={inputValue}
-                    placeholder="Введите пароль"
-                    onChange={inputChange}
-                />
-            </PasswordCard>
-
-            {inputValue === pass ?
-                <>
-                    <SectionLabel>Выберите предмет</SectionLabel>
-                    <Buttons startExamQuiz={startExamQuiz}
-                        questionObjs={questionObjs} />
-                </>
-                : inputValue === pass1 ?
-                    <>
-                        <SectionLabel>Выберите предмет</SectionLabel>
-                        <Buttons
-                            startExamQuiz={startExamQuiz}
-                            questionObjs={questionObjs1} />
-                    </>
-                    : null
-            }
+            <SectionLabel>Выберите предмет</SectionLabel>
+            <Buttons startExamQuiz={startExamQuiz} questionObjs={allQuestionObjs} />
 
             {loading && (
                 <div style={{ marginTop: '40px' }}>
@@ -203,37 +163,32 @@ const App = () => {
                 </div>
             )}
 
-            {!loading && !gameOver && (inputValue === pass || inputValue === pass1) && (
-
+            {!loading && !gameOver && (
                 <Routes>
-                    {
-                        (inputValue === pass ? questionObjs :
-                            inputValue === pass1 ?
-                                questionObjs1 : []).map(q => {
-                                    return <Route path={q.path} element={
-                                        <QuestionCardComponent
-                                            questionNum={number + 1}
-                                            totalQuestions={totalQuestions}
-                                            question={questions[number].question}
-                                            answers={questions[number].answers}
-                                            userAnswer={userAnswers ? userAnswers[number] : undefined}
-                                            checkAnswer={checkAnswer}
-                                            gameOver={gameOver}
-                                            userAnswers={userAnswers}
-                                            startExamQuiz={startExamQuiz}
-                                            questionCategory={questions[0].category}
-                                            score={score}
-                                        />
-                                    } />
-                                })
-
-                    }
+                    {allQuestionObjs.map(q => (
+                        <Route key={q.path} path={q.path} element={
+                            <QuestionCardComponent
+                                questionNum={number + 1}
+                                totalQuestions={totalQuestions}
+                                question={questions[number].question}
+                                answers={questions[number].answers}
+                                userAnswer={userAnswers ? userAnswers[number] : undefined}
+                                checkAnswer={checkAnswer}
+                                gameOver={gameOver}
+                                userAnswers={userAnswers}
+                                startExamQuiz={startExamQuiz}
+                                questionCategory={questions[0].category}
+                                score={score}
+                            />
+                        } />
+                    ))}
                 </Routes>
             )}
+
             {!gameOver &&
                 !loading &&
                 userAnswers.length === number + 1 &&
-                number !== totalQuestions - 1 && (inputValue === pass || inputValue === pass1) &&
+                number !== totalQuestions - 1 &&
                 <button className='next' onClick={nextQuestion}>
                     Следующий вопрос{' '}
                     <img style={{ paddingLeft: '5px', filter: 'brightness(0) invert(1)' }} src={nextArrowIMG} alt="" />
@@ -242,27 +197,6 @@ const App = () => {
             <div className='powered'></div>
 
         </Wrapper>
-        <>
-            {
-                concatToJSON && questionArrays.map(myQ => {
-
-                    return <p>
-                        {`{`}
-                        category: "{myQ.category}",
-                        type: "{myQ.type}",
-                        difficulty: "{myQ.difficulty}",
-                        question: "{myQ.question}",
-                        correct_answer: "{myQ.correct_answer}",
-                        incorrect_answers: [{myQ.incorrect_answers.map(ia => `"${ia}",`)}]
-                        {`},`}
-                    </p>
-
-                })
-
-            }
-
-        </>
-
     </>
     );
 }
