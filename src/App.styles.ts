@@ -34,6 +34,10 @@ export const GlobalStyle = createGlobalStyle`
     padding: 0 20px 100px;
     display: flex;
     justify-content: center;
+
+    @media (max-width: 480px) {
+      padding: 0 12px 80px;
+    }
   }
 
   * {
@@ -48,6 +52,7 @@ export const Wrapper = styled.div`
   align-items: center;
   gap: 8px;
   padding-bottom: 50px;
+  width: 100%;
   animation: ${fadeIn} 0.35s ease both;
 
   > p {
@@ -73,6 +78,11 @@ export const Wrapper = styled.div`
     padding: 0 10px;
     text-align: center;
     letter-spacing: -0.5px;
+
+    @media (max-width: 480px) {
+      font-size: 1.5rem;
+      margin: 24px auto 12px;
+    }
   }
 
   hr {
@@ -131,6 +141,12 @@ export const Wrapper = styled.div`
 
   .next {
     margin-top: 20px;
+    width: 100%;
+    max-width: 400px;
+
+    @media (max-width: 480px) {
+      max-width: 100%;
+    }
   }
 
   .powered {
@@ -162,6 +178,10 @@ export const PasswordCard = styled.div`
   gap: 16px;
   box-shadow: 0 8px 32px rgba(0,0,0,0.4);
   margin-top: 16px;
+
+  @media (max-width: 480px) {
+    padding: 24px 20px;
+  }
 `;
 
 export const PasswordInput = styled.input`
@@ -193,6 +213,11 @@ export const CategoryGrid = styled.div`
   width: 100%;
   max-width: 620px;
   margin-top: 8px;
+
+  @media (max-width: 480px) {
+    grid-template-columns: 1fr 1fr;
+    gap: 10px;
+  }
 `;
 
 export const CategoryCard = styled.button`
@@ -213,6 +238,8 @@ export const CategoryCard = styled.button`
 
   &:active {
     transform: translateY(0);
+    background: var(--clr-surface-2);
+    border-color: var(--clr-primary);
   }
 
   a {
@@ -227,9 +254,16 @@ export const CategoryCard = styled.button`
     font-size: 15px;
     font-weight: 500;
     text-align: center;
+    line-height: 1.3;
 
     &.active {
       color: var(--clr-primary);
+    }
+
+    @media (max-width: 480px) {
+      font-size: 12px;
+      height: 54px;
+      padding: 8px 10px;
     }
   }
 `;
@@ -241,4 +275,9 @@ export const SectionLabel = styled.p`
   letter-spacing: 0.5px;
   text-transform: uppercase;
   margin: 20px 0 4px;
+
+  @media (max-width: 480px) {
+    font-size: 0.75rem;
+    margin: 16px 0 4px;
+  }
 `;

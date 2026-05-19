@@ -11,6 +11,12 @@ export const Wrapper = styled.div`
   box-shadow: 0 12px 40px rgba(0,0,0,0.3);
   text-align: center;
 
+  @media (max-width: 480px) {
+    margin: 16px 0 0;
+    padding: 16px 14px 16px;
+    border-radius: 16px;
+  }
+
   p {
     font-size: 1rem;
     font-weight: 400;
@@ -69,6 +75,12 @@ export const ButtonWrapper = styled.div<ButtonWrapperProps>`
 
     color: ${({correct, userClicked}) =>
       (correct || userClicked) ? '#fff' : 'var(--clr-text)'};
+
+    @media (max-width: 480px) {
+      font-size: 0.85rem;
+      min-height: 48px;
+      padding: 10px 12px;
+    }
   }
 `;
 
@@ -77,6 +89,11 @@ export const AnswerWrapper = styled.div`
   grid-template-columns: 1fr 1fr;
   gap: 10px;
   margin-top: 8px;
+
+  @media (max-width: 480px) {
+    grid-template-columns: 1fr;
+    gap: 8px;
+  }
 `;
 
 export const ProgressBarTrack = styled.div`
@@ -86,6 +103,10 @@ export const ProgressBarTrack = styled.div`
   border-radius: 999px;
   margin-bottom: 20px;
   overflow: hidden;
+
+  @media (max-width: 480px) {
+    margin-bottom: 14px;
+  }
 `;
 
 export const ProgressBarFill = styled.div<{ percent: number }>`

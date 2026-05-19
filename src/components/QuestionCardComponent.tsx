@@ -50,7 +50,7 @@ export const QuestionCardComponent: React.FC<QuestionCardType> =
                         <ProgressBarFill percent={percent} />
                     </ProgressBarTrack>
 
-                    <p style={{ fontSize: '1.1rem', fontWeight: 400, color: 'var(--clr-text)', lineHeight: '1.7', margin: '0 0 16px' }}
+                    <p style={{ fontSize: 'clamp(0.95rem, 2.5vw, 1.1rem)', fontWeight: 400, color: 'var(--clr-text)', lineHeight: '1.7', margin: '0 0 16px' }}
                         dangerouslySetInnerHTML={{ __html: question }} />
 
                     <AnswerWrapper>
