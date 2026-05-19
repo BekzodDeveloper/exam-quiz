@@ -95,6 +95,12 @@ const App = () => {
             case "HRM-12":
                 allQuestions = dataQuestions.questionsHRM12;
                 break
+            case "ACC-4":
+                allQuestions = dataQuestions.questionsACC4;
+                break
+            case "ACC-10":
+                allQuestions = dataQuestions.questionsACC10;
+                break
             default:
                 allQuestions = [];
         }
@@ -147,6 +153,8 @@ const App = () => {
         { title: "Ch.10 — Managing Performance", category: "HRM-10", btnClass: "next", path: "/hrm10" },
         { title: "Ch.11 — Employee Assessment", category: "HRM-11", btnClass: "next", path: "/hrm11" },
         { title: "Ch.12 — Labor Unions", category: "HRM-12", btnClass: "next", path: "/hrm12" },
+        { title: "ACC Ch.4 — Tangible Assets", category: "ACC-4", btnClass: "next", path: "/acc4" },
+        { title: "ACC Ch.10 — Revenue & Expenses", category: "ACC-10", btnClass: "next", path: "/acc10" },
     ];
 
     return (<>
